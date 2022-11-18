@@ -36,6 +36,7 @@ function reg(y::Array{Float64,1}, x; constant=true, S=white(), R2adj=false)
 
     # asymptotic distributions
     bCov = inv(dg) * s * inv(dg)'
+    bCov = Hermitian(bCov)
     # R2 = [e, demean(y)] .|> (z -> z.^2) .|> (z -> sum(z, dims=1)) |> (z -> 1 - z[1] / z[2])
     R2 = 1.0 - sum(e .^ 2) / sum(demean(y) .^ 2)
     R2adj && (R2 = 1 - (1 - R2) * (T - 1) / (T - size(x, 2) - 1))
